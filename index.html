@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Marksly – SGPA & CGPA Calculator</title>
+  <meta name="theme-color" content="#1665d8"/>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="main-wrapper">
+    <header>
+      <h1 class="main-title">Marksly</h1>
+      <div class="subtitle" style="text-align:center;color:#1976d2;font-size:1em;margin-bottom:0.8em;">
+        Smart SGPA & CGPA Calculator
+      </div>
+      <div class="user-controls">
+        <select id="userSelect"></select>
+        <button id="addUserBtn" class="plain-btn">Add User</button>
+        <button id="deleteUserBtn" class="plain-btn">Delete User</button>
+      </div>
+    </header>
+    <!-- Add User Modal -->
+    <div id="userModal" class="modal-overlay hidden">
+      <div class="modal user-modal">
+        <button class="close-btn" id="closeUserModal" aria-label="Close">&times;</button>
+        <h2 id="userModalTitle"></h2>
+        <form id="userModalForm" autocomplete="off">
+          <input type="text" id="userModalInput" maxlength="18" placeholder="Enter username" autocomplete="off"/>
+          <div class="entry-error" id="userModalError"></div>
+          <div style="margin-top:1.2em;">
+            <button type="submit" class="modal-save" id="userModalOK">OK</button>
+            <button type="button" id="userModalCancel" class="plain-btn" style="margin-left:1em;">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Delete Confirm Modal -->
+    <div id="confirmModal" class="modal-overlay hidden">
+      <div class="modal confirm-modal">
+        <h2>Delete User?</h2>
+        <p id="deleteConfirmText"></p>
+        <div style="margin-top:.6em;">
+          <button id="confirmYes" class="modal-save" style="margin-right:.75em;">Yes, Delete</button>
+          <button id="confirmCancel" class="plain-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <!-- First-time username modal reused for onboarding -->
+    <div id="userEntryModal" class="entry-modal hidden">
+      <form class="entry-form" autocomplete="off">
+        <div class="icon">&#128100;</div>
+        <input type="text" id="entryUsername" maxlength="18" placeholder="Enter username" autofocus/>
+        <button id="entryContinueBtn" type="submit">Start</button>
+        <button id="entryCancelBtn" type="button" style="margin-left:1em;display:none;">Cancel</button>
+        <div id="entryError" class="entry-error"></div>
+      </form>
+    </div>
+    <main>
+      <div class="spacer-lg"></div>
+      <div class="panel-flex">
+        <div class="grid-panel">
+          <div class="sem-grid-title">Semesters</div>
+          <section class="sem-grid" id="semesters"></section>
+        </div>
+      </div>
+      <button id="installBtn" style="display:none;margin:1em auto;font-weight:600;font-size:.97em;padding:.58em 1.4em;border-radius:2em;background:#1665d8;color:#fff;border:none;cursor:pointer;">Install App</button>
+    </main>
+    <div id="modal" class="modal-overlay hidden">
+      <div class="modal">
+        <button id="closeModal" class="close-btn" aria-label="Close">&times;</button>
+        <h2 id="modalSemester"><span id="modalSemLabel"></span></h2>
+        <form id="subjectForm" autocomplete="off">
+          <label>
+            Number of Subjects:
+            <input type="number" id="subjectCount" min="1" max="15" value="9" autocomplete="off"/>
+          </label>
+          <div id="subjectRows"></div>
+          <button type="submit" class="modal-save">Save SGPA</button>
+          <button id="removeSemBtn" type="button" style="display:none;margin-left:1em;">Remove Semester</button>
+        </form>
+        <div id="sgpaOutput"></div>
+      </div>
+    </div>
+    <footer class="cgpa-banner">
+      <span>CGPA:</span>
+      <span id="cgpaValue">--</span>
+      <span id="percentageValue" style="margin-left:1.5em;">Percentage: --</span>
+    </footer>
+    <div id="toast"></div>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('installBtn').style.display = "block";
+    });
+    document.getElementById('installBtn').onclick = function() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+      }
+      this.style.display = "none";
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+:root {
+  --grad-bg: linear-gradient(135deg,#e3eefc 0%,#a7c5f8 60%,#fff 100%);
+  --white-glass: rgba(255,255,255,0.90);
+  --blue-glass: rgba(90,146,229,0.10);
+  --primary: #1665d8;
+  --primary-light: #478ae2;
+  --accent: #1976d2;
+  --danger: #e2574c;
+  --modal-bg: #f7faff;
+  --cgpa-glass: rgba(255,255,255,0.7);
+  --shadow: 0 8px 24px #1665d82b;
+}
+body { background: var(--grad-bg); color: #174060;
+  min-height: 100vh; margin: 0; padding: 0;
+  font-family: 'Segoe UI', Verdana, Arial, sans-serif;
+}
+.main-title { font-family:inherit; letter-spacing: .03em; font-size: 2em; color: #1665d8; margin-bottom: 0.3em;}
+.subtitle { font-weight: 500; font-size: 1.06em; letter-spacing: .01em;}
+.main-wrapper { min-height: 100vh; max-width: 420px; margin: 0 auto; display:flex; flex-direction:column;}
+header { padding: 1.2em 1em .7em 1em; display: flex; flex-direction: column; align-items: center; background: none;}
+.spacer-lg { height: 1.3em; }
+.user-controls { display: flex; align-items: center; justify-content: center; gap: 1.2em; margin-top: 0.05em; margin-bottom: 1.6em;}
+.user-controls select { margin-right: .1em; }
+.plain-btn {
+  background: var(--primary-light);
+  color: #fff;
+  border: none;
+  border-radius: 2em;
+  padding: .45em 1.35em;
+  font-size: 1em; font-weight: 600; cursor: pointer;
+  transition: background .17s;
+}
+.plain-btn:hover { background: var(--accent);}
+#userSelect {
+  border-radius: 2em;
+  border: 2px solid var(--primary);
+  font-size: 1em; padding: .38em 1em;
+  color: var(--primary); font-weight: 600; background: #fffefd;
+  outline: none; transition: border .17s;
+}
+#userSelect:focus { border-color: var(--accent);}
+.sem-grid-title {
+  color: var(--primary);
+  font-size: 1.13em;
+  font-weight: bold;
+  letter-spacing:0.11em;
+  margin:.85em 0 .56em 1.19em;
+  user-select: none;
+}
+.sem-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1.03em 1.03em;
+  padding: 0 1.18em 1.1em 1.19em;
+}
+@media (max-width:600px) { .sem-grid { grid-template-columns: repeat(2,1fr);} }
+.semCard {
+  background: var(--white-glass);
+  color: var(--primary);
+  border-radius: 1.2em;
+  font-size: 1.07em;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: var(--shadow);
+  min-height: 42px;
+  min-width: 32px;
+  padding: .34em 0;
+  line-height: 1.7;
+  cursor: pointer;
+  user-select:none;
+  border:2px solid transparent;
+  transition: background .13s, color .13s, border .12s, transform .09s;
+  backdrop-filter: blur(7px);
+  margin-bottom: 0.12em;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+}
+.semCard:focus, .semCard:hover {
+  background: var(--blue-glass);
+  color: var(--primary-light); border:2px solid var(--accent); transform: scale(1.08);
+}
+.cgpa-banner {
+  position: fixed; bottom:0; left:0; width: 100vw;
+  min-height: 50px; background: var(--cgpa-glass);
+  color: var(--primary); font-size: 1.08em; font-weight: bold; letter-spacing:0.05em;
+  display: flex; justify-content: center; align-items: center; gap:.5em;
+  border-radius: 14px 14px 0 0; z-index: 100;
+  box-shadow: 0 1px 13px #1665d820; backdrop-filter: blur(4px);
+}
+.entry-modal {
+  position: fixed; top:0; left:0; width:100vw; height:100vh;
+  background: rgba(22,101,216,0.13);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; backdrop-filter: blur(6px);
+}
+.entry-form { background: var(--white-glass); border-radius: 13px; box-shadow: 0 2px 22px #1976d20c; display: flex; flex-direction: column; align-items: center; min-width: 140px; max-width: 90vw; padding: .8em 1.1em 1em 1.1em; gap: .13em;}
+.icon { font-size: 2em; color: var(--primary); margin-bottom: .12em;}
+.entry-form input[type="text"] {
+  margin: .55em 0 0 0; padding: .48em .95em; border-radius: 7px;
+  border: 1.3px solid #99c8fc; font-size: 1.02em; background: #f3f7fc;
+  outline: none; width: 145px; text-align: center;
+}
+.entry-form button {
+  margin-top: .15em; background: var(--primary);
+  color: #fff; border:none; border-radius: 1em; font-size: .97em; padding: .36em 1.07em; font-weight: bold; cursor:pointer; transition: background .2s;}
+.entry-form button:hover { background: var(--accent);}
+.entry-error { margin-top: .15em; color: #b3261e; font-size:.97em; min-height:12px;}
+.entry-modal.hidden { display:none;}
+body.modal-open { overflow-y: hidden;}
+.modal-overlay { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(67,110,229,0.14); display:flex; justify-content:center; align-items:center; z-index:6000; backdrop-filter: blur(8px); transition: opacity .15s; }
+.modal-overlay.hidden { display:none; }
+.modal-user-anim { animation: modal-bounce .35s cubic-bezier(.23,.76,.57,1.19);}
+@keyframes modal-bounce {
+  0% { transform:scale(.8); opacity:0; }
+  55% { transform:scale(1.08); }
+  100% { transform:scale(1); opacity:1; }
+}
+.modal {
+  background: var(--modal-bg);
+  color: var(--primary);
+  border-radius: 11px;
+  width: 94vw; max-width: 353px;
+  padding: 1.7em 1.1em 1.7em 1.1em; box-shadow: var(--shadow);
+  position: relative;}
+.close-btn { position: absolute; right: 13px; top: 11px; font-size:1.15em; color:var(--danger); background:none; border:none; cursor: pointer;}
+#modalSemester {margin-top:0;color:var(--primary);}
+#subjectForm label { font-weight: 600; margin-bottom:.15em; display:block;}
+#subjectForm input[type="number"] {
+  width: 51px; font-size: 1em; padding: .18em .6em;
+  border-radius: 1em; border:1.05px solid var(--primary); outline:none; margin-left:.18em; background:#f3f7fc;
+}
+#subjectRows {margin: .6em 0;}
+.subjectRow { display: flex; gap:.6em; margin-bottom:.39em; align-items:center; font-size:.95em;}
+.select-wrap { position: relative; display: inline-block; width: 110px;}
+select.gradeSel, select.creditSel { width: 100%; appearance: none; background: #fff; border: 1.4px solid #bcd2fa; color: #1665d8; font-size: 1em; font-weight: 500; padding: 0.41em 1.8em 0.41em 0.8em; border-radius: 9px; transition: border .18s, box-shadow .18s; outline: none; box-shadow: 0 1.5px 9px #227c9d0C; cursor: pointer;}
+select.gradeSel:focus, select.creditSel:focus { border-color: #1665d8; background: #f0f8ff;}
+.dropdown-arrow { position: absolute; right: 12px; top: 50%; pointer-events: none; font-size: 0.9em; color: #1665d8; transform: translateY(-50%);}
+@media (max-width:440px) {
+  .select-wrap { width: 88px;}
+  select.gradeSel, select.creditSel { font-size: 0.97em;}
+}
+.modal-save {
+  background: linear-gradient(89deg,#1976d2 60%,#478ae2 160%);
+  color: #fff; font-weight: 600; border:none; border-radius:1em; font-size:.98em;
+  padding:.41em 1.12em; margin-top:.39em; box-shadow: 0 1.5px 6px #478ae277; cursor:pointer; transition:background .13s;}
+.modal-save:hover { background: linear-gradient(90deg,#478ae2 60%,#1976d2 100%);}
+#removeSemBtn {
+  background: #e2574c;
+  color: #fff; border: none; border-radius: 1em; font-size: .98em;
+  padding: .41em 1.12em; margin-top: .39em; margin-left: 0.7em;
+  box-shadow: 0 1.5px 6px #e2574c33; cursor: pointer; transition: background .13s;
+}
+#removeSemBtn:hover { background: #c94538; }
+#sgpaOutput { font-size: .99em; margin-top: .6em; text-align:center; font-weight:bold; color:var(--primary);}
+#toast { position: fixed; bottom: 83px; right: 18px; background:var(--accent);
+  color: #fff; border-radius: 1em; padding:.5em .9em; font-weight:600;
+  font-size:.98em; opacity:0; pointer-events:none; z-index:10000; box-shadow: 0 4px 8px #478ae249; transition:opacity .18s;}
+#toast.show { opacity:1;}
+/* User Modal/Confirm */
+.modal.user-modal { max-width:350px; }
+.user-modal input[type="text"] { width:92%; padding:.6em .92em; border-radius:8px; border:1.5px solid #1976d2bb; margin-top:1.2em; font-size:1.09em;}
+.user-modal input[type="text"]:focus { border-color:#1665d8; background:#e3eefc;}
+#userModalForm { display:flex; flex-direction:column; align-items:center;}
+.user-modal .entry-error {color:#e43c2f; font-size:.99em; min-height:19px; margin-top:.19em;}
+.modal.confirm-modal { max-width:345px; text-align:center;}
+.confirm-modal h2 { color:#e2574c; margin-bottom:.09em; }
+.confirm-modal p { color:#315; font-size:1.07em; }
