@@ -284,9 +284,10 @@ function openSemester(idx) {
 
   // Refresh live SGPA when subject count changes
   countInput.oninput = () => {
-    renderSubjectRows();
+    const current = collectSubjects();
+    renderSubjectRows(current);
     updateSgpaOutputDisplay();
-  };
+};
 
   // Save SGPA on form submit
   document.getElementById('subjectForm').onsubmit = e => {
